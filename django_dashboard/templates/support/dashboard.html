@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support Dashboard</title>
+    <style>
+      body { margin: 0; font-family: Inter, Arial, sans-serif; background: #f8fafc; color: #0f172a; }
+      .page { max-width: 1200px; margin: 28px auto; padding: 0 20px; }
+      .header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; align-items: flex-end; }
+      .header h1 { margin: 0; font-size: 2.2rem; }
+      .header p { margin: 6px 0 0; color: #64748b; }
+      .panel-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin: 24px 0; }
+      .panel { background: #fff; border-radius: 18px; padding: 22px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06); }
+      .panel h2 { margin: 0 0 10px; font-size: 1rem; color: #64748b; }
+      .panel strong { display: block; font-size: 2rem; margin-top: 8px; }
+      .table-card { background: #fff; border-radius: 24px; padding: 24px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06); }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { padding: 16px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+      th { color: #64748b; font-weight: 600; }
+      td { color: #0f172a; }
+      .status { padding: 9px 12px; border-radius: 999px; color: white; font-size: 0.85rem; font-weight: 600; }
+      .OPEN { background: #14b8a6; }
+      .IN_PROGRESS { background: #0ea5e9; }
+      .RESOLVED { background: #22c55e; }
+      .CLOSED { background: #64748b; }
+      @media (max-width: 900px) { .panel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      @media (max-width: 620px) { .panel-grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="header">
+        <div>
+          <p style="text-transform: uppercase; letter-spacing: 0.2em; color: #2563eb; font-size: 0.8rem; margin:0;">Support Center</p>
+          <h1>Support Dashboard</h1>
+          <p>Monitor ticket health, track priority issues, and stay on top of support status.</p>
+        </div>
+      </div>
+
+      <div class="panel-grid">
+        <div class="panel">
+          <h2>Total tickets</h2>
+          <strong>{{ summary.total }}</strong>
+        </div>
+        <div class="panel">
+          <h2>Open</h2>
+          <strong>{{ summary.open }}</strong>
+        </div>
+        <div class="panel">
+          <h2>In progress</h2>
+          <strong>{{ summary.in_progress }}</strong>
+        </div>
+        <div class="panel">
+          <h2>Resolved</h2>
+          <strong>{{ summary.resolved }}</strong>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{% url 'create_ticket' %}" style="display:inline-block;padding:12px 20px;border-radius:12px;background:#2563eb;color:white;text-decoration:none;">Create New Ticket</a>
+        <a href="{% url 'statistics' %}" style="display:inline-block;padding:12px 20px;border-radius:12px;background:#0f766e;color:white;text-decoration:none;">View Statistics</a>
+        <a href="{% url 'report_csv' %}" style="display:inline-block;padding:12px 20px;border-radius:12px;background:#7c3aed;color:white;text-decoration:none;">Download CSV</a>
+      </div>
+
+      {% if created %}
+        <div style="margin-bottom: 16px; padding: 12px 14px; border-radius: 12px; background: #dcfce7; color: #166534; border: 1px solid #86efac;">
+          Ticket submitted successfully.
+        </div>
+      {% endif %}
+
+      <div class="table-card">
+        <h2 style="margin-bottom: 18px;">Latest tickets</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Requester</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticket in tickets %}
+              <tr>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.requester }}</td>
+                <td><span class="status {{ ticket.status }}">{{ ticket.get_status_display }}</span></td>
+                <td>{{ ticket.priority }}</td>
+                <td>{{ ticket.created_at|date:"M d, Y" }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" style="text-align:center; padding: 24px 0; color:#64748b;">No support tickets available.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

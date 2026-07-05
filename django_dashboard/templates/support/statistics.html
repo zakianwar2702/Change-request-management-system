@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Support Statistics</title>
+    <style>
+      body { font-family: Inter, Arial, sans-serif; background:#f8fafc; color:#0f172a; margin:0; }
+      .page { max-width:900px; margin:32px auto; padding: 20px; }
+      .card { background:#fff; border-radius:18px; padding:20px; box-shadow:0 10px 25px rgba(15,23,42,0.06); margin-bottom:16px; }
+      h1 { margin:0 0 8px; }
+      table { width:100%; border-collapse:collapse; }
+      th, td { padding:10px 8px; text-align:left; border-bottom:1px solid #e6eef6; }
+      .muted { color:#64748b; }
+      .actions { margin-bottom:14px; }
+      .button { padding:10px 14px; border-radius:10px; background:#2563eb; color:#fff; text-decoration:none; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="actions">
+        <a href="{% url 'support_dashboard' %}" class="button" style="background:#64748b">Back</a>
+        <a href="{% url 'report_csv' %}" class="button" style="margin-left:10px;">Download CSV</a>
+      </div>
+
+      <div class="card">
+        <h1>Overview</h1>
+        <p class="muted">Total tickets: <strong>{{ total }}</strong> — Recent (7d): <strong>{{ recent_week }}</strong></p>
+      </div>
+
+      <div class="card">
+        <h2>Status Breakdown</h2>
+        <table>
+          <thead>
+            <tr><th>Status</th><th>Count</th></tr>
+          </thead>
+          <tbody>
+            {% for status, count in by_status.items %}
+              <tr><td>{{ status }}</td><td>{{ count }}</td></tr>
+            {% empty %}
+              <tr><td colspan="2" class="muted">No data</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Priority Breakdown</h2>
+        <table>
+          <thead><tr><th>Priority</th><th>Count</th></tr></thead>
+          <tbody>
+            {% for priority, count in by_priority.items %}
+              <tr><td>{{ priority }}</td><td>{{ count }}</td></tr>
+            {% empty %}
+              <tr><td colspan="2" class="muted">No data</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Monthly Counts</h2>
+        <table>
+          <thead><tr><th>Month</th><th>Count</th></tr></thead>
+          <tbody>
+            {% for row in monthly %}
+              <tr><td>{{ row.month }}</td><td>{{ row.count }}</td></tr>
+            {% empty %}
+              <tr><td colspan="2" class="muted">No data</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </body>
+</html>

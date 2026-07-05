@@ -1,0 +1,126 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.landing-container {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(
+      rgba(10, 25, 47, 0.7),
+      rgba(10, 25, 47, 0.8)
+    ),
+    url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a")
+      center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+}
+
+.landing-content {
+  max-width: 700px;
+  text-align: center;
+  color: white;
+  animation: fadeIn 1.2s ease;
+  padding: 20px;
+}
+
+.title {
+  font-size: 58px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 25px;
+}
+
+.title span {
+  color: #4fc3f7;
+}
+
+.subtitle {
+  margin: 0 auto 35px;
+  font-size: 20px;
+  line-height: 1.8;
+  color: #d9e2ec;
+  max-width: 600px;
+}
+
+.button-group {
+  margin-top: 20px;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #00b4db, #0083b0);
+  color: white;
+  border: none;
+  padding: 16px 42px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.start-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #0083b0, #00b4db);
+}
+
+.start-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 42px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+  }
+
+  .start-btn {
+    padding: 14px 36px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 34px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .start-btn {
+    width: 100%;
+    max-width: 260px;
+  }
+}
